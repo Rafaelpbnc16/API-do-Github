@@ -1,37 +1,20 @@
-# Importa a biblioteca para fazer requisições HTTP (para acessar a API)
 import requests
-import json # Para tratar melhor a visualização da resposta
+import json
 
-# --- Algoritmo de Ordenação: Bubble Sort ---
-#
-# Como funciona?
-# Ele percorre a lista várias vezes. Em cada passagem, ele compara pares de elementos
-# adjacentes (o primeiro com o segundo, o segundo com o terceiro, etc.).
-# Se um par estiver na ordem errada, ele os troca de lugar.
-# Elementos "maiores" (ou "menores", dependendo da regra) "borbulham" para o final da lista.
-# O processo se repete até que nenhuma troca seja necessária em uma passagem completa.
-#
-# Complexidade de Tempo:
-# - Pior Caso e Caso Médio: O(n²) - "O de n ao quadrado".
-#   Isso acontece porque, no pior caso, temos dois laços de repetição aninhados,
-#   onde para cada elemento da lista (n), percorremos a lista quase inteira novamente (n).
-# - Melhor Caso: O(n) - Se a lista já estiver ordenada, o algoritmo faz apenas uma
-#   passagem para verificar e não realiza trocas.
 
 def bubble_sort_por_repositorios(lista_usuarios):
     """
     Ordena uma lista de usuários do GitHub com base no número de repositórios públicos.
     Usa o algoritmo Bubble Sort.
     """
-    # n é o número de usuários na lista
     n = len(lista_usuarios)
 
     # O primeiro laço (i) controla o número de passagens pela lista.
     # A cada passagem, o maior elemento já estará na sua posição final,
-    # por isso o `n-1`.
+    # por isso o n-1.
     for i in range(n - 1):
         # O segundo laço (j) faz as comparações entre elementos adjacentes.
-        # O `n-i-1` é uma otimização: a cada passagem `i`, o `i`-ésimo maior elemento
+        # O n-i-1 é uma otimização: a cada passagem i, o i-ésimo maior elemento
         # já está no lugar certo, então não precisamos compará-lo de novo.
         trocou = False
         for j in range(0, n - i - 1):
@@ -39,21 +22,18 @@ def bubble_sort_por_repositorios(lista_usuarios):
             repos_usuario_atual = lista_usuarios[j]['public_repos']
             repos_proximo_usuario = lista_usuarios[j + 1]['public_repos']
 
-            # Comparamos! Se o atual tem mais repositórios que o próximo, trocamos eles de lugar.
-            # (Para ordenar de forma crescente, mude o sinal para >)
+            # Comparamos se o atual tem mais repositórios que o próximo, trocamos eles de lugar.
             if repos_usuario_atual < repos_proximo_usuario:
-                # A troca de lugar em Python é muito simples
                 lista_usuarios[j], lista_usuarios[j + 1] = lista_usuarios[j + 1], lista_usuarios[j]
                 trocou = True
-        
-        # Otimização: se em uma passagem inteira nenhuma troca foi feita, a lista já está ordenada.
+                
         if not trocou:
             break
             
     return lista_usuarios
 
 
-# --- Função Principal para Executar a Tarefa ---
+#Função Principal para Executar a Tarefa
 def main():
     """
     Função principal que consome a API e apresenta os dados.
@@ -65,10 +45,10 @@ def main():
         # Faz a requisição GET para a URL da API
         response = requests.get(api_url)
         
-        # Verifica se a requisição foi bem-sucedida (código 200 significa OK)
+        # Verifica se a requisição foi bem-sucedida
         response.raise_for_status()
 
-        # Converte a resposta (que está em formato JSON) para uma lista de dicionários em Python
+        # Converte a resposta (JSON) para uma lista de dicionários em Python
         usuarios = response.json()
         
         # Filtra para pegar apenas os campos que nos interessam para simplificar a visualização
